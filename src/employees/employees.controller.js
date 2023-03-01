@@ -1,9 +1,13 @@
 const { successHandler } = require('../common/handlers');
-const EmployeesService = require('./employees.service');
+const employeesService = require('./employees.service');
 
 const getEmployeesList = async (req, res, next) => {
   try {
-    const data = EmployeesService.getEmployeeList();
+    const data = await employeesService.getEmployeeList({
+      ...req.query,
+      ...req.params,
+      ...req.body
+    });
     return successHandler({ data }, req, res, next);
   } catch (e) {
     return next(e);
@@ -12,11 +16,11 @@ const getEmployeesList = async (req, res, next) => {
 
 const updateEmployee = async (req, res, next) => {
   try {
-    const data = EmployeesService.updateEmployeeDetails(
+    const data = await employeesService.updateEmployeeDetails({
       ...req.query,
       ...req.params,
       ...req.body
-    );
+    });
     return successHandler({ data }, req, res, next);
   } catch (e) {
     return next(e);
@@ -25,11 +29,11 @@ const updateEmployee = async (req, res, next) => {
 
 const deleteEmployee = async (req, res, next) => {
   try {
-    const data = EmployeesService.deleteEmployeeById(
+    const data = await employeesService.deleteEmployee({
       ...req.query,
       ...req.params,
       ...req.body
-    );
+    });
     return successHandler({ data }, req, res, next);
   } catch (e) {
     return next(e);
